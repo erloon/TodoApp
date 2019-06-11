@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { LayoutComponent } from './ui/layout/layout.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
+import { AddTaskComponent } from './add-task/add-task.component';
+import { TodoTaskComponent } from './todo-task/todo-task.component';
+import { DoneTaskComponent } from './done-task/done-task.component';
 
 
 @NgModule({
@@ -14,7 +17,10 @@ import { FooterComponent } from './ui/footer/footer.component';
     AppComponent,
     LayoutComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AddTaskComponent,
+    TodoTaskComponent,
+    DoneTaskComponent
   ],
   imports: [
     BrowserModule,

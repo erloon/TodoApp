@@ -1,38 +1,16 @@
 <div>
   <div class="container-fluid">
-    <div class="row justify-content-md-center">
-      <div>
-        <input [(ngModel)]="newTask">
-        <button class="btn" (click)="add()">Dodaj</button>
-      </div>
-    </div>
+    <app-add-task (emitTask)="add($event)"></app-add-task>
 
     <div class="row justify-content-md-center">
       <div class="col  justify-content-md-center">
         <h3 class="h3">Zadania dozrobienia</h3>
-        <ng-container *ngIf="tasksList.length>0;else noTask">
-
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let task of tasksList">
-              {{task}}
-              <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                <button class="btn btn-secondary" (click)="remove(task)">Usuń</button>
-                <button class="btn btn-secondary" (click)="done(task)">Zrobione</button>
-              </div>
-            </li>
-          </ul>
-        </ng-container>
+        <app-todo-task [tasksList]="tasksList" (emitDone)="done($event)" (emitRemove)="remove($event)"></app-todo-task>
       </div>
       <div class="col  justify-content-md-center">
         <h3 class="h3">Zadania wykonane</h3>
-        <p>Wykonane zadania {{tasksDone.length}}</p>
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let task of tasksDone">
-            {{task}}
-          </li>
-        </ul>
+        <app-done-task [tasksDone]="tasksDone"></app-done-task>
       </div>
-
     </div>
   </div>
 

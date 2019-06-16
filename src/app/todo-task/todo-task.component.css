@@ -1,0 +1,14 @@
+li {
+  background: greenyellow;
+  margin: 5px;
+}
+
+.odd-li {
+  background: red;
+  margin: 5px;
+}
+
+.even-li {
+  background: green;
+  margin: 5px;
+}

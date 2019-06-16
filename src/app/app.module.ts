@@ -10,6 +10,7 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { TodoTaskComponent } from './todo-task/todo-task.component';
 import { DoneTaskComponent } from './done-task/done-task.component';
+import { TasksService } from './services/tasks.service';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { DoneTaskComponent } from './done-task/done-task.component';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [TasksService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

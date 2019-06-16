@@ -1,7 +1,7 @@
 <ng-container *ngIf="tasksList.length>0;else noTask">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let task of tasksList">
-      {{task}}
+    <li class="list-group-item" *ngFor="let task of tasksList; let odd = odd">
+      {{task.name}}
       <div class="btn-group btn-group-sm pull-right" role="group" aria-label="Basic example">
         <button class="btn btn-secondary" (click)="remove(task)">Usuń</button>
         <button class="btn btn-secondary" (click)="done(task)">Zrobione</button>
@@ -9,3 +9,6 @@
     </li>
   </ul>
 </ng-container>
+<ng-template #noTask>
+  Wszystkie zadania wykonane
+</ng-template>

@@ -1,19 +1,17 @@
 <div>
   <div class="container-fluid">
-    <app-add-task (emitTask)="add($event)"></app-add-task>
+    <app-add-task></app-add-task>
 
     <div class="row justify-content-md-center">
       <div class="col  justify-content-md-center">
-        <h3 class="h3">Zadania dozrobienia</h3>
-        <app-todo-task [tasksList]="tasksList" (emitDone)="done($event)" (emitRemove)="remove($event)"></app-todo-task>
+        <h3 [ngStyle]="{'color': 'red'}">Zadania do zrobienia </h3>
+        <app-todo-task></app-todo-task>
       </div>
       <div class="col  justify-content-md-center">
         <h3 class="h3">Zadania wykonane</h3>
-        <app-done-task [tasksDone]="tasksDone"></app-done-task>
+        <app-done-task></app-done-task>
       </div>
     </div>
   </div>
 
-  <ng-template #noTask>
-    Wszystkie zadania wykonane
-  </ng-template>
+

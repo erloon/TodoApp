@@ -1,48 +1,43 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Task } from '../model/task';
+import { HttpService } from './http.service';
 
 
 @Injectable()
 export class TasksService {
 
-  tasksList: Array<Task> = [];
-  tasksDone: Array<Task> = [];
+  private tasksListObs = new BehaviorSubject<Array<Task>>([]);
 
-  private tasksListObs = new BehaviorSubject<Array<Task>>(this.tasksList);
-  private tasksDoneObs = new BehaviorSubject<Array<Task>>(this.tasksDone);
-
-  constructor() {
-    this.tasksList = [
-      { name: 'Zadanie 1', create: new Date() },
-      { name: 'Zadanie 2', create: new Date() },
-      { name: 'Zadanie 3', create: new Date() },
-      { name: 'Zadanie 4', create: new Date() }
-    ];
-    this.tasksListObs.next(this.tasksList);
+  constructor(private httpService: HttpService) {
+    this.httpService.getTask().subscribe(list=>{
+      this.tasksListObs.next(list);
+    });
   }
 
   add(task: Task) {
-    this.tasksList.push(task);
-    this.tasksListObs.next(this.tasksList);
+    const list = this.tasksListObs.getValue();
+    list.push(task);
+    this.tasksListObs.next(list);
   }
 
   remove(task: Task) {
-    this.tasksList = this.tasksList.filter(e => e !== task);
-    this.tasksListObs.next(this.tasksList);
+    const list = this.tasksListObs.getValue().filter(e => e !== task);
+    this.tasksListObs.next(list);
   }
 
   done(task: Task) {
-    this.tasksDone.push(task);
-    this.remove(task);
-    this.tasksDoneObs.next(this.tasksDone);
+    task.end = new Date().toLocaleString();
+    task.isDone = true;
+    const list = this.tasksListObs.getValue();
+    this.tasksListObs.next(list);
   }
 
   getTasksListObs(): Observable<Array<Task>> {
     return this.tasksListObs.asObservable();
   }
 
-  getTasksDoneObs(): Observable<Array<Task>> {
-    return this.tasksDoneObs.asObservable();
+  saveTasksInDB() {
+    this.httpService.saveTasks(this.tasksListObs.getValue());
   }
 }

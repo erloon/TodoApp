@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import { TasksService } from './services/tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,11 @@ import { Subject, Observable } from 'rxjs';
 
 export class AppComponent {
 
+  constructor(private taskService: TasksService){
 
+  }
+  save() {
+    this.taskService.saveTasksInDB();
+  }
 }
 

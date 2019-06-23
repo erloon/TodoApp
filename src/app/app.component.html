@@ -1,20 +1,16 @@
-<div>
-  <div class="container-fluid">
-    <app-add-task></app-add-task>
-
-    <div class="row justify-content-md-center">
-      <div class="col  justify-content-md-center">
-        <h3 [ngStyle]="{'color': 'red'}">Zadania do zrobienia </h3>
-        <app-todo-task></app-todo-task>
-      </div>
-      <div class="col  justify-content-md-center">
-        <h3 class="h3">Zadania wykonane</h3>
-        <app-done-task></app-done-task>
-      </div>
-    </div>
-    <div class="row justify-content-md-center">
-      <button class="btn-primary"(click)="save()">Save</button>
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <ul class="nav nav-pills justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="todoTask" routerLinkActive="active" href="#">Zadania</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="doneTask" routerLinkActive="active" href="#">Wykonane</a>
+        </li>
+      </ul>
     </div>
   </div>
+  <router-outlet></router-outlet>
 
-
+</div>

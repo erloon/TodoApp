@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TasksService } from '../services/tasks.service';
 import { Task } from '../model/task';
+import { ReactiveFormsModule, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-task',
@@ -9,16 +10,38 @@ import { Task } from '../model/task';
 })
 export class AddTaskComponent implements OnInit {
 
-  constructor(private tasksService : TasksService) { }
+  constructor(private tasksService: TasksService) { }
 
-  newTask:string;
+  addForm: FormGroup;
 
   ngOnInit() {
+    this.addForm = this.initForm();
   }
 
-  add(){
-    const task: Task = ({name: this.newTask, create: new Date().toLocaleString(), isDone: false});
-    this.tasksService.add(task);
-    this.newTask = '';
+  initForm(){
+   return new FormGroup({
+      taskName: new FormArray([new FormControl(null, Validators.required)])
+    });
+  }
+
+  add() {
+    const taskList = this.createTaskList();
+    this.tasksService.add(taskList);
+    this.addForm = this.initForm();
+  }
+
+  addField() {
+    const arr = <FormArray>this.addForm.get('taskName');
+    arr.push(new FormControl(null, Validators.required));
+  }
+
+  createTaskList(): Array<Task> {
+    const taskList = new Array<Task>();
+    const taskArr = <[string]>this.addForm.get('taskName').value;
+    taskArr.forEach(taskName => {
+      const task = ({ name: taskName, create: new Date().toLocaleString(), isDone: false });
+      taskList.push(task);
+    });
+    return taskList;
   }
 }

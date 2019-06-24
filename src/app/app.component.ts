@@ -14,8 +14,6 @@ export class AppComponent {
   constructor(private taskService: TasksService){
 
   }
-  save() {
-    this.taskService.saveTasksInDB();
-  }
+
 }
 

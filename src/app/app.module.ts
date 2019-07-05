@@ -14,7 +14,21 @@ import { TransformTaskPipe } from './shared/transform-task.pipe';
 import { SortNamePipe } from './shared/sort-name.pipe';
 import {HttpClientModule} from '@angular/common/http';
 import { HttpService } from './services/http.service';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuardService } from './auth/auth-guard.service';
 
+const firebaseConfig = {
+  apiKey: 'AIzaSyDWWCn9scs5kxiOIjTUlVxiDX08L_IAFiU',
+  authDomain: 'todoapp-dd595.firebaseapp.com',
+  databaseURL: 'https://todoapp-dd595.firebaseio.com',
+  projectId: 'todoapp-dd595',
+  storageBucket: '',
+  messagingSenderId: '614665409759',
+  appId: '1:614665409759:web:5c41f288b35754c1'
+};
 
 @NgModule({
   declarations: [
@@ -25,16 +39,19 @@ import { HttpService } from './services/http.service';
     CheckedDirective,
     DateDirective,
     TransformTaskPipe,
-    SortNamePipe
+    SortNamePipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule
   ],
-  providers: [TasksService, HttpService],
+  providers: [TasksService, HttpService, AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

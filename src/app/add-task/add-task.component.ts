@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TasksService } from '../services/tasks.service';
 import { Task } from '../model/task';
 import { ReactiveFormsModule, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-add-task',
@@ -10,7 +11,7 @@ import { ReactiveFormsModule, FormGroup, FormArray, FormControl, Validators } fr
 })
 export class AddTaskComponent implements OnInit {
 
-  constructor(private tasksService: TasksService) { }
+  constructor(private tasksService: TasksService, private authService: AuthService) { }
 
   addForm: FormGroup;
 
@@ -18,8 +19,8 @@ export class AddTaskComponent implements OnInit {
     this.addForm = this.initForm();
   }
 
-  initForm(){
-   return new FormGroup({
+  initForm() {
+    return new FormGroup({
       taskName: new FormArray([new FormControl(null, Validators.required)])
     });
   }
@@ -39,7 +40,7 @@ export class AddTaskComponent implements OnInit {
     const taskList = new Array<Task>();
     const taskArr = <[string]>this.addForm.get('taskName').value;
     taskArr.forEach(taskName => {
-      const task = ({ name: taskName, create: new Date().toLocaleString(), isDone: false });
+      const task = ({ name: taskName, userId: this.authService.user.uid, create: new Date().toLocaleString(), isDone: false });
       taskList.push(task);
     });
     return taskList;

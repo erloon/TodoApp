@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TodoTaskComponent } from './todo-task/todo-task.component';
 import { DoneTaskComponent } from './done-task/done-task.component';
+import { LoginComponent } from './auth/login/login.component';
+import { CanActivate } from '@angular/router/src/interfaces';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -11,11 +14,17 @@ const routes: Routes = [
   },
   {
     path: 'todoTask',
-    component: TodoTaskComponent
+    component: TodoTaskComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'doneTask',
-    component: DoneTaskComponent
+    component: DoneTaskComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 

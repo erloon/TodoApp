@@ -1,6 +1,0 @@
-<p>Wykonane zadania {{tasksDone.length}}</p>
-<ul class="list-group">
-  <li appChecked appDate [date]="task.end" class="list-group-item" *ngFor="let task of tasksDone">
-    {{task.name | transformTask: ' - super'}}
-  </li>
-</ul>

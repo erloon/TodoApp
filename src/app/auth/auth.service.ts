@@ -14,21 +14,14 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    this.angularFire.auth.signInWithEmailAndPassword(email, password)
+    return this.angularFire.auth.signInWithEmailAndPassword(email, password)
       .then(user => {
         this.route.navigate(['/todoTask']);
-      }).catch(err => {
-        console.log(err);
       });
   }
 
   signup(email: string, password: string) {
-    this.angularFire.auth.createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        console.log(user);
-      }).catch(err => {
-        console.log(err);
-      });
+    return this.angularFire.auth.createUserWithEmailAndPassword(email, password);
   }
 
   logout() {

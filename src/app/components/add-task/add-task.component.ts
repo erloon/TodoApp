@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TasksService } from '../services/tasks.service';
-import { Task } from '../model/task';
+import { TasksService } from '../../services/tasks.service';
+import { Task } from '../../model/task';
 import { ReactiveFormsModule, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-add-task',

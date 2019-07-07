@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { TasksService } from '../services/tasks.service';
-import { Task } from '../model/task';
+import { TasksService } from '../../services/tasks.service';
+import { Task } from '../../model/task';
 
 @Component({
   selector: 'app-todo-task',

@@ -4,6 +4,7 @@ import { TasksService } from './services/tasks.service';
 import { AuthService } from './auth/auth.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +12,10 @@ import { Router } from '@angular/router';
   providers: []
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  notification: string;
+  showNotification: boolean;
 
   constructor(
     private taskService: TasksService,
@@ -19,8 +23,15 @@ export class AppComponent {
     private route: Router) {
 
   }
+  navbarOpen = false;
 
-  logout(){
+  ngOnInit(): void {
+  }
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
+  }
+  logout() {
     this.authService.logout();
     this.route.navigate(['/login']);
   }

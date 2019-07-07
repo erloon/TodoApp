@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TodoTaskComponent } from './todo-task/todo-task.component';
-import { DoneTaskComponent } from './done-task/done-task.component';
+import { TodoTaskComponent } from './components/todo-task/todo-task.component';
+import { DoneTaskComponent } from './components/done-task/done-task.component';
 import { LoginComponent } from './auth/login/login.component';
 import { CanActivate } from '@angular/router/src/interfaces';
 import { AuthGuardService } from './auth/auth-guard.service';

@@ -1,13 +1,21 @@
-<div class="container">
-  <form (ngSubmit)="login(formData)" #formData='ngForm'>
-    <div style="display: inline-grid; margin: 10px">
-      <label>Email</label>
-      <input ngModel type="email" name="email" required>
-      <label>Hasło</label>
-      <input ngModel type="password" name="password" required>
+<form class="form-signin" (ngSubmit)="login(formData)" #formData='ngForm'>
+  <div class="text-center mb-4">
+    <img class="mb-4" src="../../../assets/tasks.svg.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Zapraszamy</h1>
+  </div>
 
-      <button type="submit" [disabled]="formData.invalid">Zaloguj</button>
-      <button type="button" [disabled]="formData.invalid" (click)="signup(formData)">Zarejestruj</button>
-    </div>
-  </form>
+  <div class="form-label-group">
+    <label for="inputEmail">Email</label>
+    <input ngModel type="email" name="email" id="email" class="form-control" placeholder="Email address" required>
+  </div>
+  <div class="form-label-group">
+    <label for="password">Password</label>
+    <input ngModel type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+  </div>
+  <button class="btn btn-lg btn-dark btn-block form-btn" type="submit" [disabled]="formData.invalid">Zaloguj</button>
+  <button class="btn btn-lg btn-dark btn-block form-btn" type="button" [disabled]="formData.invalid" (click)="signup(formData)">Zarejestruj</button>
+</form>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+  {{error}}
 </div>
+

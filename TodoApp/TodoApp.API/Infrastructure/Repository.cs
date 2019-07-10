@@ -8,13 +8,13 @@ using Microsoft.Extensions.Options;
 
 namespace TodoApp.API.Infrastructure
 {
-    public abstract class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly TodoOptions _options;
         private DocumentClient _documentClient;
         private Uri _documentCollectionUri;
 
-        protected Repository(IOptions<TodoOptions> options)
+        public Repository(IOptions<TodoOptions> options)
         {
             _options = options.Value;
             _documentClient = new DocumentClient(new Uri(_options.EndpointUri), _options.PrimaryKey);

@@ -11,11 +11,11 @@ namespace TodoApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    public class TasksController : ControllerBase
     {
         private readonly IRepository<TaskItem> _taskRepository;
 
-        public TaskController(IRepository<TaskItem> taskRepository)
+        public TasksController(IRepository<TaskItem> taskRepository)
         {
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
         }
@@ -24,6 +24,13 @@ namespace TodoApp.API.Controllers
         public async Task<IActionResult> Tasks()
         {
             var result = await _taskRepository.Get();
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Tasks(TaskItem taskItem)
+        {
+            var result = await _taskRepository.Add(taskItem);
             return Ok(result);
         }
     }

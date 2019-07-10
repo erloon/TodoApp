@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TodoApp.API.Infrastructure;
 using TodoApp.API.Model;
 
 namespace TodoApp.API.Controllers
@@ -12,10 +13,18 @@ namespace TodoApp.API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        [HttpGet]
-        public async Task<ActionResult<TaskItem>> Task()
-        {
+        private readonly IRepository<TaskItem> _taskRepository;
 
+        public TaskController(IRepository<TaskItem> taskRepository)
+        {
+            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Tasks()
+        {
+            var result = await _taskRepository.Get();
+            return Ok(result);
         }
     }
 }

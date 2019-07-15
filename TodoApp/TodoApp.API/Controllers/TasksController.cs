@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoApp.API.Infrastructure;
 using TodoApp.API.Model;
@@ -20,18 +18,42 @@ namespace TodoApp.API.Controllers
             _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Tasks()
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Tasks(string userId)
         {
-            var result = await _taskRepository.Get();
+            if (!Guid.TryParse(userId, out Guid userGuid))
+            {
+                return BadRequest("Wrong userId");
+            }
+
+            var result = await _taskRepository.Get(userGuid);
             return Ok(result);
         }
 
         [HttpPost]
+        public async Task<IActionResult> Tasks([FromBody] List<TaskItem> taskItems)
+        {
+            List<TaskItem> result = new List<TaskItem>();
+            if (taskItems != null && taskItems.Count != 0)
+            {
+                foreach (var taskItem in taskItems)
+                {
+                    var document = await _taskRepository.Add(taskItem);
+                    result.Add(document);
+                }
+
+                return Ok(result);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut]
         public async Task<IActionResult> Tasks(TaskItem taskItem)
         {
-            var result = await _taskRepository.Add(taskItem);
-            return Ok(result);
+            if (taskItem == null)
+                return BadRequest("TaskItem is null");
+            return Ok(await _taskRepository.Update(taskItem, taskItem.Id.ToString()));
         }
     }
 }

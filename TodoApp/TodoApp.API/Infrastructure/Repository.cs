@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
+using TodoApp.API.Model;
 
 namespace TodoApp.API.Infrastructure
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : UserDocument
     {
         private readonly TodoOptions _options;
         private DocumentClient _documentClient;
@@ -45,9 +47,11 @@ namespace TodoApp.API.Infrastructure
                 new DocumentCollection() { Id = _options.CollectionId },
                 new RequestOptions() { OfferThroughput = 1000 });
         }
-        public async Task<Document> Add(T item)
+        public async Task<TaskItem> Add(T item)
         {
-            return await _documentClient.CreateDocumentAsync(_documentCollectionUri, item);
+            var document = await _documentClient.CreateDocumentAsync(_documentCollectionUri, item);
+            TaskItem result = (dynamic)document.Resource;
+            return result;
         }
 
         public async Task Delete(string id)
@@ -55,15 +59,18 @@ namespace TodoApp.API.Infrastructure
             await _documentClient.DeleteDocumentAsync(CreateDocumentUri(id));
         }
 
-        public async Task<Document> Update(T item, string id)
+        public async Task<TaskItem> Update(T item, string id)
         {
-            return await _documentClient.ReplaceDocumentAsync(CreateDocumentUri(id), item);
+            var document = await _documentClient.ReplaceDocumentAsync(CreateDocumentUri(id), item);
+            TaskItem result = (dynamic)document.Resource;
+            return result;
         }
 
-        public async Task<IEnumerable<T>> Get()
+        public async Task<IEnumerable<T>> Get(Guid userId)
         {
             IDocumentQuery<T> query = _documentClient.CreateDocumentQuery<T>(
-                    UriFactory.CreateDocumentCollectionUri(_options.DatabaseId, _options.CollectionId)).AsDocumentQuery();
+                    UriFactory.CreateDocumentCollectionUri(_options.DatabaseId, _options.CollectionId))
+                    .Where(x => x.UserId == userId).AsDocumentQuery();
 
             List<T> results = new List<T>();
             while (query.HasMoreResults)
@@ -77,9 +84,9 @@ namespace TodoApp.API.Infrastructure
 
     public interface IRepository<T> where T : class
     {
-        Task<Document> Add(T item);
+        Task<TaskItem> Add(T item);
         Task Delete(string id);
-        Task<Document> Update(T item, string id);
-        Task<IEnumerable<T>> Get();
+        Task<TaskItem> Update(T item, string id);
+        Task<IEnumerable<T>> Get(Guid userId);
     }
 }

@@ -41,8 +41,10 @@ namespace TodoApp.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            string prefix = "/swagger/v1/swagger.json";
             if (env.IsDevelopment())
             {
+                prefix = "/TodoApp.API/swagger/v1/swagger.json";
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -54,7 +56,7 @@ namespace TodoApp.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/TodoApp.API/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint(prefix, "My API V1");
                 c.RoutePrefix = string.Empty;
             });
             app.UseHttpsRedirection();

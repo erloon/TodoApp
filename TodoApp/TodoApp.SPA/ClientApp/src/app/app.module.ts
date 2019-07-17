@@ -37,14 +37,14 @@ const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     AddTaskComponent,
     TodoTaskComponent,
     DoneTaskComponent,
     CheckedDirective,
     DateDirective,
     TransformTaskPipe,
-    SortNamePipe,
-    LoginComponent
+    SortNamePipe
   ],
   imports: [
     BrowserModule,
